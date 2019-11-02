@@ -31,31 +31,40 @@ combination of multiple fields depending on your table structure.
 By default, the @Id annotation will automatically determine the most appropriate primary key generation 
 strategy to be used but you can override this by applying the @GeneratedValue annotation, which takes 
 two parameters strategy and generator. @Id makes code more portable by allowing Hibernate to decide. */
-@Id 
-@GeneratedValue(generator = "pet_generator")
-@Column(name = "id")
-@SequenceGenerator(
-            name = "pet_generator",
-            sequenceName = "pet_sequence",
-            initialValue = 1
-    )
-@JsonProperty("id")
-// From Question.java, testing to see if ok that not Long id = null below.
-// w/@id,genval and column. Otherwords, works with Hibernate maybe not Jackson.
-private int id;
-  
-// Originally put with @JsonProperty private Long id = null;
+  @Id 
+  @GeneratedValue(generator = "pet_generator")
+  @Column(name = "id")
+  @SequenceGenerator(
+              name = "pet_generator",
+              sequenceName = "pet_sequence",
+              initialValue = 1
+      )
 
+  // @JsonProperty allows for the serialization of a field. I.e. the below
+  // annotation would accept "id" in json and 'map' it to this field. It would
+  // output this filed as 'id' in the JSON output.
+  @JsonProperty("id")
+  // From Question.java, testing to see if ok that not Long id = null below.
+  // w/@id,genval and column. Otherwords, works with Hibernate maybe not Jackson.
+  private int id;
+  
+  // Originally put with @JsonProperty private Long id = null;
+
+  // Sets a Category variable to null. See Category.java in this package.
+  @Column(columnDefinition = "category")
   @JsonProperty("category")
   private Category category = null;
 
+  @Column(columnDefinition = "name")
   @JsonProperty("name")
   private String name = null;
 
+  @Column(columnDefinition = "photourls")
   @JsonProperty("photoUrls")
   @Valid
   private List<String> photoUrls = new ArrayList<String>();
 
+  @Column(columnDefinition = "tags")
   @JsonProperty("tags")
   @Valid
   private List<Tag> tags = null;
