@@ -13,15 +13,38 @@ import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
+// Added persistence import for use by Hibernate - persistence contains @Entity
+import javax.persistence.*;
 
 /**
  * Pet
  */
+// Entity and Table used by Hibernate
+@Entity
+@Table(name = "pets")
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-11-01T20:18:37.980Z[GMT]")
 public class Pet   {
-  @JsonProperty("id")
-  private Long id = null;
+  /**@Id and @GeneratedValue Annotations
+Each entity bean will have a PRIMARY KEY, which you annotate on the class with the @Id annotation. The primary key can be a single field or a 
+combination of multiple fields depending on your table structure.
+By default, the @Id annotation will automatically determine the most appropriate primary key generation 
+strategy to be used but you can override this by applying the @GeneratedValue annotation, which takes 
+two parameters strategy and generator. @Id makes code more portable by allowing Hibernate to decide. */
+@Id 
+@GeneratedValue(generator = "pet_generator")
+@Column(name = "id")
+@SequenceGenerator(
+            name = "pet_generator",
+            sequenceName = "pet_sequence",
+            initialValue = 1
+    )
+@JsonProperty("id")
+// From Question.java, testing to see if ok that not Long id = null below.
+// w/@id,genval and column. Otherwords, works with Hibernate maybe not Jackson.
+private int id;
+  
+// Originally put with @JsonProperty private Long id = null;
 
   @JsonProperty("category")
   private Category category = null;
