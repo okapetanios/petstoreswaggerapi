@@ -95,7 +95,7 @@ private int id;
   @JsonProperty("status")
   private StatusEnum status = null;
 
-  public Pet id(Long id) {
+  public Pet id(int id) {
     this.id = id;
     return this;
   }
@@ -106,11 +106,11 @@ private int id;
   **/
   @ApiModelProperty(value = "")
   
-    public Long getId() {
+    public int getId() {
     return id;
   }
 
-  public void setId(Long id) {
+  public void setId(int id) {
     this.id = id;
   }
 
